@@ -1,0 +1,13 @@
+<h2>Скачать фотографии поста</h2>
+{{> form }}
+
+<div id="downloader"></div>
+{{#if error}}
+    <h5>{{error}}</h5>
+{{else}}
+    {{> photos }}
+{{/if}}
+
+<!--<a href="/favicon.png" download="icon">-->
+<!--    <img src="/favicon.png" alt="W3Schools">-->
+<!--</a>-->

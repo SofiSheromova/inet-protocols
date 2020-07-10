@@ -1,0 +1,26 @@
+{
+  "name": "vk-api",
+  "version": "1.0.0",
+  "description": "Application for saving photos of vk.com publication",
+  "private": true,
+  "engines": {
+    "node": "13"
+  },
+  "main": "index.js",
+  "scripts": {
+    "deps": "npm ci",
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "Sofiа Sheromova <sofi.sheromova@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "morgan": "^1.9.1",
+    "node-zip": "^1.1.1",
+    "request": "^2.88.2"
+  }
+}

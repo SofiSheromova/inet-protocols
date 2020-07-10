@@ -1,0 +1,96 @@
+<div>
+    {{#if photos.length }}
+        <div class="photos-title">
+            <h5>Фотографии</h5>
+            {{> loader }}
+        </div>
+        <div class="photos">
+            {{#each photos}}
+                <img src="{{this}}" alt="your photo">
+            {{/each}}
+        </div>
+    {{else}}
+        <h5>У данного поста нет фотографий :(</h5>
+        <p>Может вы прикрепили ссылку на репост?</p>
+    {{/if}}
+</div>
+
+<script>
+    const urls = '{{{photos}}}'
+            .split(',')
+            .filter(url => url);
+    if (urls.length) {
+        getArchive();
+    }
+
+    function getArchive() {
+        const options = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({urls: urls})
+        }
+
+        fetch('/download', options)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.hasOwnProperty('error'))
+                        throw new Error(res.error)
+                    return res
+                })
+                .then(data => {
+                    if (data.folder) {
+                        return '/' + data.folder + '/' + data.archiveName;
+                    }
+                    return '/' + data.archiveName;
+                })
+                .then(renderOk)
+                .catch(renderError)
+    }
+
+    function renderOk(archiveName) {
+        const title = document.getElementsByClassName('photos-title')[0];
+        console.log(archiveName);
+
+        const button = document.createElement('a');
+        button.classList.add('btn', 'waves-effect', 'waves-light');
+        button.setAttribute('download', 'photos.zip');
+        button.setAttribute('href', archiveName);
+
+        const subscription = document.createElement('span');
+        subscription.innerText = 'Download';
+        button.appendChild(subscription);
+
+        const icon = document.createElement('i');
+        icon.classList.add('material-icons', 'right');
+        icon.innerText = 'file_download';
+        button.appendChild(icon);
+
+        title.removeChild(document.getElementById('loader'));
+        title.appendChild(button);
+    }
+
+    function renderError(error) {
+        const title = document.getElementsByClassName('photos-title')[0];
+        const button = document.createElement('a');
+        button.classList.add('btn', 'waves-light', 'red');
+
+        const subscription = document.createElement('span');
+        subscription.innerText = 'Error';
+        button.appendChild(subscription);
+
+        const icon = document.createElement('i');
+        icon.classList.add('material-icons', 'right');
+        icon.innerText = 'error_outline';
+        button.appendChild(icon);
+
+        const description = document.createElement('span');
+        description.innerText = 'Не удалось загрузить фото. Повторите попытку позже';
+
+        title.removeChild(document.getElementById('loader'));
+        title.appendChild(button);
+        title.appendChild(description);
+    }
+</script>
