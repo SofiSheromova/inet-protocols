@@ -1,0 +1,17 @@
+$ORIGIN example.com.
+$TTL 1d
+@             IN  SOA     ns.example.com. username.example.com. (1 1d 2h 2w 1h)
+              IN  NS      ns
+              IN  NS      ns.backup.example.
+              IN  MX      10 mail1
+              IN  MX      20 mail2
+              IN  MX      30 mail3
+              IN  A       10.0.1.1
+              IN  AAAA    2001:DB8:3C4D:7777::1
+ns            IN  A       10.0.1.2
+              IN  AAAA    2001:DB8:3C4D:7777::2
+www           IN  CNAME   @
+mail1         IN  A       10.0.1.3
+mail2         IN  A       10.0.1.4
+mail3         IN  A       10.0.1.5
+news          IN  A       10.0.2.1
